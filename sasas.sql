@@ -1,4 +1,4 @@
---Yelp Dataset Profiling and Understanding
+--Yelp Dataset Profiling and Understanding Using Only SQL
 
 --1. Profile the data by finding the total number of records for each of the tables below:
 
@@ -79,81 +79,130 @@
               compliment_photos is null
 
 	/* Output:
-	+--------------+
-  | null_counter |
-  +--------------+
-  |            0 |
-  +--------------+ */
+	  +--------------+
+	  | null_counter |
+	  +--------------+
+	  |            0 |
+	  +--------------+ 
+	s*/
 
 	
-4. For each table and column listed below, display the smallest (minimum), largest (maximum), and average (mean) value for the following fields:
-
-	i. Table: Review, Column: Stars
-	
-		min:		max:		avg:
-		
-	
-	ii. Table: Business, Column: Stars
-	
-		min:		max:		avg:
-		
-	
-	iii. Table: Tip, Column: Likes
-	
-		min:		max:		avg:
-		
-	
-	iv. Table: Checkin, Column: Count
-	
-		min:		max:		avg:
-		
-	
-	v. Table: User, Column: Review_count
-	
-		min:		max:		avg:
+-
 		
 
 
-5. List the cities with the most reviews in descending order:
-
-	SQL code used to arrive at answer:
+--5. List the cities with the most reviews in descending order:
+		    
+--SQL Code
+	select city,sum(review_count) as total_review
+	from business
+	group by city
+	order by total_review desc
 	
-	
-	Copy and Paste the Result Below:
+/*
+		Output:
+		+-----------------+--------------+
+		| city            | total_review |
+		+-----------------+--------------+
+		| Las Vegas       |        82854 |
+		| Phoenix         |        34503 |
+		| Toronto         |        24113 |
+		| Scottsdale      |        20614 |
+		| Charlotte       |        12523 |
+		| Henderson       |        10871 |
+		| Tempe           |        10504 |
+		| Pittsburgh      |         9798 |
+		| Montréal        |         9448 |
+		| Chandler        |         8112 |
+		| Mesa            |         6875 |
+		| Gilbert         |         6380 |
+		| Cleveland       |         5593 |
+		| Madison         |         5265 |
+		| Glendale        |         4406 |
+		| Mississauga     |         3814 |
+		| Edinburgh       |         2792 |
+		| Peoria          |         2624 |
+		| North Las Vegas |         2438 |
+		| Markham         |         2352 |
+		| Champaign       |         2029 |
+		| Stuttgart       |         1849 |
+		| Surprise        |         1520 |
+		| Lakewood        |         1465 |
+		| Goodyear        |         1155 |
+		+-----------------+--------------+
+*/
 	
 
 	
 6. Find the distribution of star ratings to the business in the following cities:
 
 i. Avon
+	select stars,sum(review_count) as star_distribution
+	from business
+	where city = 'Avon'
+	group by stars
 
-SQL code used to arrive at answer:
 
-
-Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
-
+/* Output:
+		+-------+-------------------+
+		| stars | star_distribution |
+		+-------+-------------------+
+		|   1.5 |                10 |
+		|   2.5 |                 6 |
+		|   3.5 |                88 |
+		|   4.0 |                21 |
+		|   4.5 |                31 |
+		|   5.0 |                 3 |
+		+-------+-------------------+
+*/
 
 ii. Beachwood
 
 SQL code used to arrive at answer:
+	select stars,sum(review_count) as star_distribution
+	from business
+	where city = 'Beachwood'
+	group by stars
 
 
-Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
-		
+/* Output:
+		+-------+-------------------+
+		| stars | star_distribution |
+		+-------+-------------------+
+		|   2.0 |                 8 |
+		|   2.5 |                 3 |
+		|   3.0 |                11 |
+		|   3.5 |                 6 |
+		|   4.0 |                69 |
+		|   4.5 |                17 |
+		|   5.0 |                23 |
+		+-------+-------------------+
+*/
 
 
 7. Find the top 3 users based on their total number of reviews:
 		
-	SQL code used to arrive at answer:
+	select id,name,review_count
+	from user
+	order by review_count desc
+	limit  3
 	
 		
-	Copy and Paste the Result Below:
+/* Output:
+	+------------------------+--------+--------------+
+	| id                     | name   | review_count |
+	+------------------------+--------+--------------+
+	| -G7Zkl1wIWBBmD0KRy_sCw | Gerald |         2000 |
+	| -3s52C4zL_DHRK0ULG6qtg | Sara   |         1629 |
+	| -8lbUNlXVSoXqaRRiHiSNg | Yuri   |         1339 |
+	+------------------------+--------+--------------+
+*/
 		
 
 
 8. Does posing more reviews correlate with more fans?
 
-	Please explain your findings and interpretation of the results:
+	
 	
 
 	
